@@ -53,6 +53,7 @@ km.res <- kmeans(MCEsv, 4, nstart=25)
 ##Per homework instructions,  do not run line 52
 print(km.res)
 
+
 #####  Step 2: Create the Clustering Visual  ###############
 
 #reating a new dataset using the cbind() function to merge the subset data 
@@ -65,63 +66,56 @@ fviz_cluster(km.res, data=dd,
              ellipse.type = "euclid", #Concentration ellipse
              star.plot = TRUE, #Add segments from centroids to items
              repel = TRUE, #Avoid label overplotting 
-             ggtheme = theme_minimal()
-         
-         
-         
-                    
-#boxplot
-# Step 1: Select columns for clustering
-
-data_for_clustering <- MCE[, c("Age", "Annual.Income..k..", 
-                               "Spending.Score..1.100.")]
+             ggtheme = theme_minimal())
              
-# Step 2: Run k-means clustering 
-set.seed(123)  # for reproducibility
-km.res <- kmeans(data_for_clustering, centers = 3, nstart = 25)
+             #boxplot
+             # Step 1: Select columns for clustering
+             data_for_clustering <- MCE[, c("Age", "Annual.Income..k..", "Spending.Score..1.100.")]
              
-# Step 3:  cluster assigned
-km.res$cluster
-
-# Merge cluster  with original data
-MCE_clustered <- cbind(MCE, Cluster = km.res$cluster)
-
-# Boxplot for Age across clusters
-boxplot(Age ~ Cluster, data = MCE_clustered, main = "Distribution of Age Across 
-    Clusters", xlab = "Cluster", ylab = "Age", col = c("red", "green", "blue"))
+             # Step 2: Run k-means clustering 
              
-# Boxplot for Annual Income across clusters
-boxplot(Annual.Income..k.. ~ Cluster, data = MCE_clustered, main = "Distribution
-        of Annual Income Across Clusters",xlab = "Cluster", ylab = 
-          "Annual Income (k$)", col = c("red", "green", "blue"))
+             set.seed(123)  # for reproducibility
+             km.res <- kmeans(data_for_clustering, centers = 3, nstart = 25)
              
-# Boxplot for Spending Score across clusters
-boxplot(Spending.Score..1.100. ~ Cluster, data = MCE_clustered, main =
-          "Distribution of Spending Score Across Clusters",xlab = "Cluster", 
-        ylab = "Spending Score", col = c("red", "green", "blue"))
-
-
-
-##########################################################
-#########################################################
-
-
+             # Step 3:  cluster assigned
+             km.res$cluster
+             
+             # Merge cluster  with original data
+             MCE_clustered <- cbind(MCE, Cluster = km.res$cluster)
+             
+             # Boxplot for Age across clusters
+             boxplot(Age ~ Cluster, data = MCE_clustered,
+                     main = "Distribution of Age Across Clusters",
+                     xlab = "Cluster", ylab = "Age",
+                     col = c("red", "green", "blue"))
+             
+             # Boxplot for Annual Income across clusters
+             boxplot(Annual.Income..k.. ~ Cluster, data = MCE_clustered,
+                     main = "Distribution of Annual Income Across Clusters",
+                     xlab = "Cluster", ylab = "Annual Income (k$)",
+                     col = c("red", "green", "blue"))
+             
+             # Boxplot for Spending Score across clusters
+             boxplot(Spending.Score..1.100. ~ Cluster, data = MCE_clustered,
+                     main = "Distribution of Spending Score Across Clusters",
+                     xlab = "Cluster", ylab = "Spending Score",
+                     col = c("red", "green", "blue"))
+             
+             
+######################    
+# descriptive tables #          
+######################  
+             
+             
 install.packages("stargazer")
-library(stargazer)
+library(stargazer)    
 
-
-
-# Split data by Cluster
 cluster1 <- subset(MCE_clustered, Cluster == 1)
 cluster2 <- subset(MCE_clustered, Cluster == 2)
 cluster3 <- subset(MCE_clustered, Cluster == 3)
-
 
 variables <- c("Age", "Annual.Income..k..", "Spending.Score..1.100.")
 
 stargazer(cluster1[, variables], type = "text", title = "Cluster 1 Descriptive Stats")
 stargazer(cluster2[, variables], type = "text", title = "Cluster 2 Descriptive Stats")
 stargazer(cluster3[, variables], type = "text", title = "Cluster 3 Descriptive Stats")
-
-
-
