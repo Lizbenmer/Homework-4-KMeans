@@ -35,9 +35,14 @@ library(factoextra)
 install.packages("rstatix")
 library(rstatix)
 
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("factoextra")
+library(factoextra)
 #To find the number of clusters needed we use the fviz_nbclust function
 
-fviz_nbclust(MCEsv, kmeans, method="wss") + geom_vline(xintercept = 0, linetype = 2)
+fviz_nbclust(MCEsv, kmeans, method="wss") + geom_vline(xintercept = 0, linetype
+                                                       = 2)
 
 
 ## I'm using 4 clusters based on the graph in my plots box
